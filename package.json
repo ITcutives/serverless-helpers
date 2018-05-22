@@ -1,0 +1,40 @@
+{
+  "name": "serverless-helpers",
+  "version": "1.0.0",
+  "description": "Serverless Helper Functions",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run lint && mocha --recursive",
+    "coverage": "./node_modules/.bin/nyc --reporter=lcov --reporter=text npm test",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ITcutives/serverless-helpers.git"
+  },
+  "keywords": [
+    "serverless",
+    "helpers",
+    "request",
+    "response"
+  ],
+  "author": "Ashish Tilara <ashish@itcutives.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ITcutives/serverless-helpers/issues"
+  },
+  "homepage": "https://github.com/ITcutives/serverless-helpers#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^4.19.1",
+    "eslint-config-google": "^0.9.1",
+    "mocha": "^5.2.0",
+    "nyc": "^11.8.0",
+    "sinon": "^5.0.7",
+    "sinon-chai": "^3.0.0"
+  },
+  "dependencies": {
+    "boom": "^7.2.0"
+  }
+}
