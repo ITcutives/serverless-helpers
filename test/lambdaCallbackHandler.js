@@ -13,7 +13,7 @@ chai.use(chaiAsPromised);
 
 chai.should();
 
-describe('helpers.lambdaCallbackHandler', () => {
+describe('lambdaCallbackHandler', () => {
   describe('finish', () => {
     it('should call callback with correctly built parameters', (done) => {
       let expectation, fn;
@@ -35,21 +35,22 @@ describe('helpers.lambdaCallbackHandler', () => {
   });
 
   describe('errorHandler', () => {
-    let spy;
+    let tempConsole;
 
     beforeEach(() => {
-      spy = sinon.spy(console, 'log');
+      tempConsole = console.log;
+      console.log = sinon.stub();
     });
 
     afterEach(() => {
-      console.log.restore();
+      console.log = tempConsole;
     });
 
     it('should print logs if `process.end.debug` is set to `true`', (done) => {
       let err, fn;
       err = new Error('error');
       fn = function() {
-        spy.should.have.callCount(2);
+        console.log.should.have.callCount(2);
         done();
       };
       process.env.debug = 'true';
@@ -60,7 +61,7 @@ describe('helpers.lambdaCallbackHandler', () => {
       let err, fn;
       err = new Error('error');
       fn = function() {
-        spy.should.have.callCount(0);
+        console.log.should.have.callCount(0);
         done();
       };
       process.env.debug = 'false';
@@ -72,12 +73,13 @@ describe('helpers.lambdaCallbackHandler', () => {
       err = new Error('error');
       expectation = {
         body: JSON.stringify({
-          error: ['An internal server error occurred'],
-          detail: {
-            'e': err.toString()
-          }
+          'errors': [{
+            'status': '500',
+            'title': 'Internal Server Error',
+            'detail': 'An internal server error occurred'
+          }]
         }),
-        statusCode: 500,
+        statusCode: '500',
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
@@ -96,9 +98,13 @@ describe('helpers.lambdaCallbackHandler', () => {
       err = Boom.entityTooLarge('big entity');
       expectation = {
         body: JSON.stringify({
-          error: ['big entity']
+          'errors': [{
+            'status': '413',
+            'title': 'Request Entity Too Large',
+            'detail': 'big entity'
+          }]
         }),
-        statusCode: 413,
+        statusCode: '413',
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'

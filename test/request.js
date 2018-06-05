@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 
 chai.should();
 
-describe('helpers.request', () => {
+describe('request', () => {
   describe('normaliseLambdaRequest', () => {
     it('should correctly build response object from lambda event', () => {
       let event, url, headers, expectation;

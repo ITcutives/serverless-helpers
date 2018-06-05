@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 
 chai.should();
 
-describe('helpers.common', () => {
+describe('common', () => {
   describe('mapReflect', () => {
     it('should return all with `resolved` when all promises are resolved - but function always resolves', (done) => {
       let promise, expectation;

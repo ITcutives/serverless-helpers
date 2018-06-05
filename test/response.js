@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 
 chai.should();
 
-describe('helpers.response', () => {
+describe('response', () => {
   describe('respond', () => {
     it('should set properties and return the object', () => {
       let o = new Response();
