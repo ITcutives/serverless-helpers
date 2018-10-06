@@ -40,4 +40,15 @@ describe('boom-to-jsonapi', () => {
       }]
     });
   });
+
+  it('should split and trim spaces from code and message from the boom object into jsonapi formatted object', () => {
+    boomToJsonAPI(Boom.badRequest('CODE : Some Error: it happened')).should.be.deep.eql({
+      errors: [{
+        status: '400',
+        title: 'Bad Request',
+        detail: 'Some Error:it happened',
+        code: 'CODE'
+      }]
+    });
+  });
 });

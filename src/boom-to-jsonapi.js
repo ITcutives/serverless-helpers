@@ -29,7 +29,7 @@ module.exports = (err) => {
 
   // look for error code
   detail = payload.message;
-  message = detail.split(':');
+  message = detail.split(':').map(v => v.trim());
   if (message.length > 1) {
     code = message[0].trim();
     detail = message.splice(1).join(':');
