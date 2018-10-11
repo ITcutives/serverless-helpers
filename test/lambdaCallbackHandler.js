@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Created by ashish on 3/7/17.
  */
@@ -16,21 +17,20 @@ chai.should();
 describe('lambdaCallbackHandler', () => {
   describe('finish', () => {
     it('should call callback with correctly built parameters', (done) => {
-      let expectation, fn;
-      expectation = {
-        body: JSON.stringify({'hello': 'world'}),
+      const expectation = {
+        body: JSON.stringify({ hello: 'world' }),
         statusCode: 123,
         headers: {
           'Content-Type': 'text/xml',
-          'Access-Control-Allow-Origin': '*'
-        }
+          'Access-Control-Allow-Origin': '*',
+        },
       };
-      fn = (e, object) => {
+      const fn = (e, object) => {
         (e === null).should.be.eql(true);
         object.should.be.deep.eql(expectation);
         done();
       };
-      lambdaCallbackHandler.finish(fn, 123, {'hello': 'world'}, {'Content-Type': 'text/xml'});
+      lambdaCallbackHandler.finish(fn, 123, { hello: 'world' }, { 'Content-Type': 'text/xml' });
     });
   });
 
@@ -47,10 +47,9 @@ describe('lambdaCallbackHandler', () => {
     });
 
     it('should print logs if `process.end.debug` is set to `true`', (done) => {
-      let err, fn;
-      err = new Error('error');
-      fn = function() {
-        console.log.should.have.callCount(2);
+      const err = new Error('error');
+      const fn = () => {
+        console.log.should.have.callCount(1);
         done();
       };
       process.env.debug = 'true';
@@ -58,9 +57,8 @@ describe('lambdaCallbackHandler', () => {
     });
 
     it('should not print logs if `process.end.debug` is set to `false`', (done) => {
-      let err, fn;
-      err = new Error('error');
-      fn = function() {
+      const err = new Error('error');
+      const fn = () => {
         console.log.should.have.callCount(0);
         done();
       };
@@ -69,23 +67,23 @@ describe('lambdaCallbackHandler', () => {
     });
 
     it('should execute callback correctly (non boom error)', (done) => {
-      let err, expectation, fn;
-      err = new Error('error');
-      expectation = {
+      const err = new Error('error');
+      const expectation = {
         body: JSON.stringify({
-          'errors': [{
-            'status': '500',
-            'title': 'Internal Server Error',
-            'detail': 'An internal server error occurred'
-          }]
+          errors: [{
+            status: '500',
+            title: 'Internal Server Error',
+            detail: 'An internal server error occurred',
+            meta: 'error',
+          }],
         }),
         statusCode: '500',
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        }
+          'Access-Control-Allow-Origin': '*',
+        },
       };
-      fn = function(e, object) {
+      const fn = (e, object) => {
         (e === null).should.be.eql(true);
         object.should.be.deep.eql(expectation);
         done();
@@ -94,23 +92,23 @@ describe('lambdaCallbackHandler', () => {
     });
 
     it('should execute callback correctly (boom error)', (done) => {
-      let err, expectation, fn;
-      err = Boom.entityTooLarge('big entity');
-      expectation = {
+      const err = Boom.entityTooLarge('big entity');
+      const expectation = {
         body: JSON.stringify({
-          'errors': [{
-            'status': '413',
-            'title': 'Request Entity Too Large',
-            'detail': 'big entity'
-          }]
+          errors: [{
+            status: '413',
+            title: 'Request Entity Too Large',
+            detail: 'big entity',
+            meta: 'big entity',
+          }],
         }),
         statusCode: '413',
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        }
+          'Access-Control-Allow-Origin': '*',
+        },
       };
-      fn = function(e, object) {
+      const fn = (e, object) => {
         (e === null).should.be.eql(true);
         object.should.be.deep.eql(expectation);
         done();

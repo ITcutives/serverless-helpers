@@ -14,8 +14,9 @@ describe('boom-to-jsonapi', () => {
         status: '500',
         title: 'Internal Server Error',
         detail: 'An internal server error occurred',
-        code: undefined
-      }]
+        code: undefined,
+        meta: 'random error',
+      }],
     });
   });
 
@@ -25,8 +26,9 @@ describe('boom-to-jsonapi', () => {
         status: '400',
         title: 'Bad Request',
         detail: 'BAD Request',
-        code: undefined
-      }]
+        code: undefined,
+        meta: 'BAD Request',
+      }],
     });
   });
 
@@ -36,8 +38,9 @@ describe('boom-to-jsonapi', () => {
         status: '400',
         title: 'Bad Request',
         detail: 'Some Error:it happened',
-        code: 'CODE'
-      }]
+        code: 'CODE',
+        meta: 'CODE :Some Error:it happened',
+      }],
     });
   });
 
@@ -47,8 +50,20 @@ describe('boom-to-jsonapi', () => {
         status: '400',
         title: 'Bad Request',
         detail: 'Some Error:it happened',
-        code: 'CODE'
-      }]
+        code: 'CODE',
+        meta: 'CODE : Some Error: it happened',
+      }],
     });
+  });
+
+  it('should put proper error message as meta', () => {
+    const response = boomToJsonAPI(Boom.badRequest('CODE : Some Error: it happened', Boom.forbidden('Not allowed')));
+    const error = response.errors[0];
+    error.status.should.be.eql('400');
+    error.title.should.be.eql('Bad Request');
+    error.detail.should.be.eql('Some Error:it happened');
+    error.code.should.be.eql('CODE');
+    error.meta.indexOf('Not allowed').should.not.be.eql(-1);
+    error.meta.indexOf('boom-to-jsonapi.js').should.not.be.eql(-1);
   });
 });
