@@ -15,11 +15,11 @@ chai.should();
 describe('response', () => {
   describe('respond', () => {
     it('should set properties and return the object', () => {
-      let o = new Response();
-      o.respond(123, {'hello': 'world'}, {'Content-Type': 'text/xml'});
+      const o = new Response();
+      o.respond(123, { hello: 'world' }, { 'Content-Type': 'text/xml' });
       o.statusCode.should.be.eql(123);
-      o.body.should.be.deep.eql({'hello': 'world'});
-      o.headers.should.be.deep.eql({'Content-Type': 'text/xml'});
+      o.body.should.be.deep.eql({ hello: 'world' });
+      o.headers.should.be.deep.eql({ 'Content-Type': 'text/xml' });
     });
   });
 });

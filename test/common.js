@@ -15,53 +15,50 @@ chai.should();
 describe('common', () => {
   describe('mapReflect', () => {
     it('should return all with `resolved` when all promises are resolved - but function always resolves', (done) => {
-      let promise, expectation;
-      promise = [
+      const promise = [
         Promise.resolve('1'),
-        Promise.resolve('2')
+        Promise.resolve('2'),
       ];
-      expectation = [{
-        'v': '1',
-        'status': 'resolved'
+      const expectation = [{
+        v: '1',
+        status: 'resolved',
       }, {
-        'v': '2',
-        'status': 'resolved'
+        v: '2',
+        status: 'resolved',
       }];
 
       common.mapReflect(promise).should.eventually.eql(expectation).notify(done);
     });
 
     it('should return all with correct status when some resolved and some rejected - but function always resolves', (done) => {
-      let err, promise, expectation;
-      err = new Error('message');
-      promise = [
+      const err = new Error('message');
+      const promise = [
         Promise.resolve('1'),
-        Promise.reject(err)
+        Promise.reject(err),
       ];
-      expectation = [{
-        'v': '1',
-        'status': 'resolved'
+      const expectation = [{
+        v: '1',
+        status: 'resolved',
       }, {
-        'e': err,
-        'status': 'rejected'
+        e: err,
+        status: 'rejected',
       }];
       common.mapReflect(promise).should.eventually.eql(expectation).notify(done);
     });
 
     it('should return all with `rejected` when all promises are rejected - but function always resolves', (done) => {
-      let err1, err2, promise, expectation;
-      err1 = new Error('message-1');
-      err2 = new Error('message-2');
-      promise = [
+      const err1 = new Error('message-1');
+      const err2 = new Error('message-2');
+      const promise = [
         Promise.reject(err1),
-        Promise.reject(err2)
+        Promise.reject(err2),
       ];
-      expectation = [{
-        'e': err1,
-        'status': 'rejected'
+      const expectation = [{
+        e: err1,
+        status: 'rejected',
       }, {
-        'e': err2,
-        'status': 'rejected'
+        e: err2,
+        status: 'rejected',
       }];
       common.mapReflect(promise).should.eventually.eql(expectation).notify(done);
     });

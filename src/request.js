@@ -39,6 +39,7 @@ class Request {
    */
   static normaliseLambdaRequest(event) {
     const headers = Object.keys(event.headers).reduce((result, key) => {
+      // eslint-disable-next-line no-param-reassign
       result[key.toLowerCase()] = event.headers[key];
       return result;
     }, {});
@@ -47,10 +48,11 @@ class Request {
       host: headers.host,
       params: event.pathParameters || {},
       pathname: event.path,
-      query: event.queryStringParameters || {}
+      query: event.queryStringParameters || {},
     };
-    let body = event.body;
+    let { body } = event;
     try {
+      // eslint-disable-next-line no-const-assign
       body = JSON.parse(body);
     } catch (e) {
       // Do nothing...

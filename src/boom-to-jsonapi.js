@@ -15,32 +15,35 @@ const Boom = require('boom');
  *  source
  *    pointer
  *    parameter
- *  meta
+ *  meta          --
  * }
  */
 module.exports = (err) => {
-  let payload, message, detail, code;
+  let detail;
+  let code;
 
   if (!Boom.isBoom(err)) {
+    // eslint-disable-next-line no-param-reassign
     err = Boom.boomify(err);
   }
 
-  payload = err.output.payload;
+  const { payload } = err.output;
 
   // look for error code
   detail = payload.message;
-  message = detail.split(':');
+  const message = detail.split(':').map(v => v.trim());
   if (message.length > 1) {
     code = message[0].trim();
     detail = message.splice(1).join(':');
   }
 
   return {
-    'errors': [{
-      'status': payload.statusCode.toString(),
-      'title': payload.error,
+    errors: [{
+      status: payload.statusCode.toString(),
+      title: payload.error,
       detail,
-      code
-    }]
+      code,
+      meta: Boom.isBoom(err.data) ? err.data.stack : err.message,
+    }],
   };
 };

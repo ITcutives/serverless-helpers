@@ -1,19 +1,8 @@
 /**
  * Created by ashish on 1/2/17.
  */
-let reflect,
-  mapReflect;
+const reflect = promise => promise.then(v => ({ v, status: 'resolved' }), e => ({ e, status: 'rejected' }));
 
-reflect = (promise) => {
-  return promise.then(function(v) {
-    return {v: v, status: 'resolved'};
-  }, function(e) {
-    return {e: e, status: 'rejected'};
-  });
-};
+const mapReflect = promises => Promise.all(promises.map(reflect));
 
-mapReflect = function(promises) {
-  return Promise.all(promises.map(reflect));
-};
-
-module.exports = {reflect, mapReflect};
+module.exports = { reflect, mapReflect };
