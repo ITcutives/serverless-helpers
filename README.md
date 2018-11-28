@@ -6,6 +6,31 @@ Serverless Request/Response Handlers
 
 ## Usage
 
+### `Request`, `Response`, and `LambdaResponseFormatter`
+
+**Require**
+
+```ecmascript 6
+const Request = require('@itcutives/serverless-helpers/src/request');
+const Response = require('@itcutives/serverless-helpers/src/response');
+const LambdaResponseFormatter = require('@itcutives/serverless-helpers/src/lambdaResponseFormatter');
+
+```
+
+**Usage**
+
+```ecmascript 6
+module.exports.handler = (event, context, cb) => {
+  const request = Request.normaliseLambdaRequest(event);
+  const response = new Response();
+  
+  //... handle request, eg.
+  handleEvent(request, response)
+    .then(response => LambdaResponseFormatter.finish(cb, response))
+    .catch(error => LambdaResponseFormatter.errorHandler(cb, error));
+};
+```
+
 ### boom-to-jsonapi
 
 **Require**

@@ -7,15 +7,56 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const chaiAsPromised = require('chai-as-promised');
 const Boom = require('boom');
-const lambdaCallbackHandler = require('../src/lambdaCallbackHandler');
+const Response = require('../src/response');
+const lambdaResponseFormatter = require('../src/lambdaResponseFormatter');
 
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
 chai.should();
 
-describe('lambdaCallbackHandler', () => {
+describe('lambdaResponseFormatter', () => {
   describe('finish', () => {
+    let tempConsole;
+    let middleware;
+    let response;
+
+    beforeEach(() => {
+      tempConsole = console.log;
+      console.log = sinon.stub();
+      // eslint-disable-next-line prefer-destructuring
+      middleware = lambdaResponseFormatter.middleware;
+      response = new Response();
+    });
+
+    afterEach(() => {
+      console.log = tempConsole;
+      lambdaResponseFormatter.middleware = middleware;
+    });
+
+    it('should log error if middleware throws error', (done) => {
+      const error = new Error('bad Error');
+      lambdaResponseFormatter.middleware = () => {
+        throw error;
+      };
+      const expectation = {
+        body: JSON.stringify({ hello: 'world' }),
+        statusCode: 123,
+        headers: {
+          'Content-Type': 'text/xml',
+          'Access-Control-Allow-Origin': '*',
+        },
+      };
+      const fn = (e, object) => {
+        (e === null).should.be.eql(true);
+        object.should.be.deep.eql(expectation);
+        console.log.should.have.callCount(1);
+        console.log.should.have.been.calledWith('--> MiddleWareError:', error);
+        done();
+      };
+      lambdaResponseFormatter.finish(fn, response.respond(123, { hello: 'world' }, { 'Content-Type': 'text/xml' }));
+    });
+
     it('should call callback with correctly built parameters', (done) => {
       const expectation = {
         body: JSON.stringify({ hello: 'world' }),
@@ -28,9 +69,10 @@ describe('lambdaCallbackHandler', () => {
       const fn = (e, object) => {
         (e === null).should.be.eql(true);
         object.should.be.deep.eql(expectation);
+        console.log.should.have.callCount(0);
         done();
       };
-      lambdaCallbackHandler.finish(fn, 123, { hello: 'world' }, { 'Content-Type': 'text/xml' });
+      lambdaResponseFormatter.finish(fn, response.respond(123, { hello: 'world' }, { 'Content-Type': 'text/xml' }));
     });
   });
 
@@ -46,24 +88,24 @@ describe('lambdaCallbackHandler', () => {
       console.log = tempConsole;
     });
 
-    it('should print logs if `process.end.debug` is set to `true`', (done) => {
+    it('should print logs if `process.env.debug` is set to `true`', (done) => {
       const err = new Error('error');
       const fn = () => {
         console.log.should.have.callCount(1);
         done();
       };
       process.env.debug = 'true';
-      lambdaCallbackHandler.errorHandler(fn, err);
+      lambdaResponseFormatter.errorHandler(fn, err);
     });
 
-    it('should not print logs if `process.end.debug` is set to `false`', (done) => {
+    it('should not print logs if `process.env.debug` is set to `false`', (done) => {
       const err = new Error('error');
       const fn = () => {
         console.log.should.have.callCount(0);
         done();
       };
       process.env.debug = 'false';
-      lambdaCallbackHandler.errorHandler(fn, err);
+      lambdaResponseFormatter.errorHandler(fn, err);
     });
 
     it('should execute callback correctly (non boom error)', (done) => {
@@ -88,7 +130,7 @@ describe('lambdaCallbackHandler', () => {
         object.should.be.deep.eql(expectation);
         done();
       };
-      lambdaCallbackHandler.errorHandler(fn, err);
+      lambdaResponseFormatter.errorHandler(fn, err);
     });
 
     it('should execute callback correctly (boom error)', (done) => {
@@ -113,7 +155,7 @@ describe('lambdaCallbackHandler', () => {
         object.should.be.deep.eql(expectation);
         done();
       };
-      lambdaCallbackHandler.errorHandler(fn, err);
+      lambdaResponseFormatter.errorHandler(fn, err);
     });
   });
 });
