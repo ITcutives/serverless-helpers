@@ -16,7 +16,7 @@ class LambdaResponseFormatter {
     internalHeaders['Access-Control-Allow-Origin'] = '*';
 
     try {
-      await LambdaResponseFormatter.middleware();
+      await this.middleware();
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('--> MiddleWareError:', error);
