@@ -1,6 +1,6 @@
 # serverless-helpers
 
-[![Build Status](https://travis-ci.com/ITcutives/serverless-helpers.svg?branch=master)](https://travis-ci.com/ITcutives/serverless-helpers)
+[![Build Status](https://travis-ci.com/ITcutives/serverless-helpers.svg?branch=master)](https://travis-ci.com/ITcutives/serverless-helpers) [![Greenkeeper badge](https://badges.greenkeeper.io/ITcutives/serverless-helpers.svg)](https://greenkeeper.io/)
 
 Serverless Request/Response Handlers
 
