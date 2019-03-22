@@ -46,10 +46,17 @@ class Request {
     const method = event.httpMethod.toLowerCase();
     const url = {
       host: headers.host,
-      params: event.pathParameters || {},
+      params: {},
       pathname: event.path,
       query: event.queryStringParameters || {},
     };
+
+    if (event.pathParameters) {
+      Object.keys(event.pathParameters).forEach((v) => {
+        url.params[v] = decodeURIComponent(event.pathParameters[v]);
+      });
+    }
+
     let { body } = event;
     try {
       // eslint-disable-next-line no-const-assign

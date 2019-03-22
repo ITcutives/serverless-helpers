@@ -1,20 +1,11 @@
 /**
  * Created by ashish on 3/7/17.
  */
-const chai = require('chai');
-const sinonChai = require('sinon-chai');
-const chaiAsPromised = require('chai-as-promised');
-
 const common = require('../src/common');
-
-chai.use(sinonChai);
-chai.use(chaiAsPromised);
-
-chai.should();
 
 describe('common', () => {
   describe('mapReflect', () => {
-    it('should return all with `resolved` when all promises are resolved - but function always resolves', (done) => {
+    it('should return all with `resolved` when all promises are resolved - but function always resolves', async () => {
       const promise = [
         Promise.resolve('1'),
         Promise.resolve('2'),
@@ -27,10 +18,10 @@ describe('common', () => {
         status: 'resolved',
       }];
 
-      common.mapReflect(promise).should.eventually.eql(expectation).notify(done);
+      expect(await common.mapReflect(promise)).toEqual(expectation);
     });
 
-    it('should return all with correct status when some resolved and some rejected - but function always resolves', (done) => {
+    it('should return all with correct status when some resolved and some rejected - but function always resolves', async () => {
       const err = new Error('message');
       const promise = [
         Promise.resolve('1'),
@@ -43,10 +34,10 @@ describe('common', () => {
         e: err,
         status: 'rejected',
       }];
-      common.mapReflect(promise).should.eventually.eql(expectation).notify(done);
+      expect(await common.mapReflect(promise)).toEqual(expectation);
     });
 
-    it('should return all with `rejected` when all promises are rejected - but function always resolves', (done) => {
+    it('should return all with `rejected` when all promises are rejected - but function always resolves', async () => {
       const err1 = new Error('message-1');
       const err2 = new Error('message-2');
       const promise = [
@@ -60,7 +51,7 @@ describe('common', () => {
         e: err2,
         status: 'rejected',
       }];
-      common.mapReflect(promise).should.eventually.eql(expectation).notify(done);
+      expect(await common.mapReflect(promise)).toEqual(expectation);
     });
   });
 });

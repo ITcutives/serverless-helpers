@@ -19,29 +19,51 @@ const LambdaResponseFormatter = require('@itcutives/serverless-helpers/src/lambd
 
 **Usage**
 
-```ecmascript 6
-module.exports.handler = (event, context, cb) => {
-  const request = Request.normaliseLambdaRequest(event);
-  const response = new Response();
-  
-  //... handle request, eg.
-  handleEvent(request, response)
-    .then(response => LambdaResponseFormatter.finish(cb, response))
-    .catch(error => LambdaResponseFormatter.errorHandler(cb, error));
+```js
+module.exports.handler = async () => {
+  const request = REQ.normaliseLambdaRequest(event);
+  const response = new RES();
+
+  try {
+    //... open db connection, handle request etc ... 
+    const resp = await handleEvent(request, response);
+    return LambdaResponseFormatter.responseHandler(resp);
+  } catch (e) {
+    return LambdaResponseFormatter.errorHandler(e);
+  }
 };
 ```
+
+### `LambdaResponseFormatter` middleware
+
+To handle the clean up operations before responding. such as close db connection etc...
+
+```js
+const LambdaResponseFormatter = require('@itcutives/serverless-helpers/src/lambdaResponseFormatter');
+
+class ResponseHandler extends LambdaResponseFormatter {
+  static async middleware() {
+    // close db connection
+    return true;
+  }
+}
+
+module.exports = ResponseHandler;
+```
+
+Once you have above, your `handler` function should use `ResponseHandler` class instead of `LambdaResponseFormatter`
 
 ### boom-to-jsonapi
 
 **Require**
 
-```ecmascript 6
+```js
 const boomToJsonAPI = require('@itcutives/serverless-helpers/src/boom-to-jsonapi');
 ```
 
 **Unclassified Error**
 
-```ecmascript 6
+```js
 boomToJsonAPI(new Error('random error'));
 // {
 //   errors: [{
@@ -55,7 +77,7 @@ boomToJsonAPI(new Error('random error'));
 
 **Boom Error**
 
-```ecmascript 6
+```js
 boomToJsonAPI(Boom.badRequest('BAD Request'));
 // {
 //   errors: [{
@@ -69,7 +91,7 @@ boomToJsonAPI(Boom.badRequest('BAD Request'));
 
 **Boom Error with Code**
 
-```ecmascript 6
+```js
 boomToJsonAPI(Boom.badRequest('CODE :Some Error:it happened'));
 // {
 //   errors: [{
@@ -80,3 +102,17 @@ boomToJsonAPI(Boom.badRequest('CODE :Some Error:it happened'));
 //   }]
 // }
 ```
+
+## Example
+
+```bash
+cd example
+# install dependencies
+npm i
+# run api offline
+npm run offline
+```
+
+- to see Success Response: `http://localhost:3000/v1/success`
+
+- to see Error Response: `http://localhost:3000/v1/error`

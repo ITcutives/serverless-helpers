@@ -9,7 +9,7 @@ class LambdaResponseFormatter {
     return true;
   }
 
-  static async finish(cb, resp) {
+  static async responseHandler(resp) {
     const { statusCode, body, headers } = resp;
     const internalHeaders = {};
     internalHeaders['Content-Type'] = 'application/json';
@@ -23,14 +23,14 @@ class LambdaResponseFormatter {
     }
 
     const finalHeaders = Object.assign(internalHeaders, headers);
-    cb(null, {
+    return {
       body: JSON.stringify(body),
       headers: finalHeaders,
       statusCode,
-    });
+    };
   }
 
-  static errorHandler(cb, error) {
+  static errorHandler(error) {
     const response = new Response();
     const jsonError = boomToJsonAPI(error);
     // Log the original error
@@ -39,7 +39,7 @@ class LambdaResponseFormatter {
       console.log('--> Error:', error);
     }
 
-    LambdaResponseFormatter.finish(cb, response.respond(jsonError.errors[0].status, jsonError));
+    return LambdaResponseFormatter.responseHandler(response.respond(jsonError.errors[0].status, jsonError));
   }
 }
 
