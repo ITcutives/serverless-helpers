@@ -1,6 +1,6 @@
 {
   "name": "@itcutives/serverless-helpers",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Serverless Helper Functions",
   "main": "index.js",
   "scripts": {
@@ -26,8 +26,6 @@
   },
   "homepage": "https://github.com/ITcutives/serverless-helpers#readme",
   "devDependencies": {
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
     "eslint": "^5.15.3",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
