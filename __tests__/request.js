@@ -1,23 +1,14 @@
 /**
  * Created by ashish on 3/7/17.
  */
-const chai = require('chai');
-const sinonChai = require('sinon-chai');
-const chaiAsPromised = require('chai-as-promised');
-
 const Request = require('../src/request');
-
-chai.use(sinonChai);
-chai.use(chaiAsPromised);
-
-chai.should();
 
 describe('request', () => {
   describe('normaliseLambdaRequest', () => {
     it('should correctly build response object from lambda event', () => {
       const event = {
         resource: '/v1/{parent}/{id}/{association}',
-        path: '/v1/organisations/2/webservices',
+        path: '/v1/users/2/webservices',
         httpMethod: 'GET',
         headers: {
           Accept: 'application/json, text/plain, */*',
@@ -36,13 +27,13 @@ describe('request', () => {
           fields: 'id,name,adapter',
         },
         pathParameters: {
-          parent: 'organisations',
+          parent: 'users',
           association: 'webservices',
-          id: '2',
+          id: 'ashish%40gmail.com',
         },
         stageVariables: null,
         requestContext: {
-          path: '/dev/v1/organisations/2/webservices',
+          path: '/dev/v1/users/2/webservices',
           accountId: '679802029599',
           resourceId: 'ujv7uo',
           stage: 'dev',
@@ -57,8 +48,8 @@ describe('request', () => {
       };
       const url = {
         host: '1xtqdza31m.execute-api.ap-southeast-2.amazonaws.com',
-        params: { parent: 'organisations', association: 'webservices', id: '2' },
-        pathname: '/v1/organisations/2/webservices',
+        params: { parent: 'users', association: 'webservices', id: 'ashish@gmail.com' },
+        pathname: '/v1/users/2/webservices',
         query: { fields: 'id,name,adapter' },
       };
       const headers = {
@@ -75,7 +66,7 @@ describe('request', () => {
         via: '2.0 8f1576b7655be126377fe32a39c280b6.cloudfront.net (CloudFront)',
       };
       const expectation = new Request('992d7b5f-60ae-11e7-afd3-a731ab6f7abe', 'get', headers, url, null);
-      Request.normaliseLambdaRequest(event).should.be.deep.eql(expectation);
+      expect(Request.normaliseLambdaRequest(event)).toEqual(expectation);
     });
 
     it('should correctly build response object from lambda event (without pathParams and qs)', () => {
@@ -133,7 +124,7 @@ describe('request', () => {
         via: '2.0 8f1576b7655be126377fe32a39c280b6.cloudfront.net (CloudFront)',
       };
       const expectation = new Request('992d7b5f-60ae-11e7-afd3-a731ab6f7abe', 'get', headers, url, null);
-      Request.normaliseLambdaRequest(event).should.be.deep.eql(expectation);
+      expect(Request.normaliseLambdaRequest(event)).toEqual(expectation);
     });
   });
 
@@ -141,13 +132,13 @@ describe('request', () => {
     it('should assign `env` properly', () => {
       const req = new Request();
       req.setEnv({ abcd: 'xyz' });
-      req.getEnv().should.be.deep.eql({ abcd: 'xyz' });
+      expect(req.getEnv()).toEqual({ abcd: 'xyz' });
     });
   });
 
   describe('token (get/set)', () => {
     const req = new Request();
     req.setToken({ abcd: 'xyz' });
-    req.getToken().should.be.deep.eql({ abcd: 'xyz' });
+    expect(req.getToken()).toEqual({ abcd: 'xyz' });
   });
 });

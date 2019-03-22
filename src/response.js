@@ -10,7 +10,7 @@ class Response {
    * @param statusCode
    * @param body
    * @param headers
-   * @returns {response}
+   * @returns {Response}
    */
   respond(statusCode, body, headers) {
     this.statusCode = statusCode;
