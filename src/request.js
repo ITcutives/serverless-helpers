@@ -1,6 +1,8 @@
 /**
  * Created by ashish on 11/1/17.
  */
+const QS = require('qs');
+
 class Request {
   /**
    * @param id
@@ -48,7 +50,8 @@ class Request {
       host: headers.host,
       params: {},
       pathname: event.path,
-      query: event.queryStringParameters || {},
+      // query: event.queryStringParameters || {},
+      query: QS.parse(QS.stringify(event.queryStringParameters || {})),
     };
 
     if (event.pathParameters) {

@@ -24,7 +24,8 @@ describe('request', () => {
           Via: '2.0 8f1576b7655be126377fe32a39c280b6.cloudfront.net (CloudFront)',
         },
         queryStringParameters: {
-          fields: 'id,name,adapter',
+          'fields[webservices]': 'id,name,adapter',
+          'fields[users]': 'id,name',
         },
         pathParameters: {
           parent: 'users',
@@ -50,7 +51,12 @@ describe('request', () => {
         host: '1xtqdza31m.execute-api.ap-southeast-2.amazonaws.com',
         params: { parent: 'users', association: 'webservices', id: 'ashish@gmail.com' },
         pathname: '/v1/users/2/webservices',
-        query: { fields: 'id,name,adapter' },
+        query: {
+          fields: {
+            webservices: 'id,name,adapter',
+            users: 'id,name',
+          },
+        },
       };
       const headers = {
         accept: 'application/json, text/plain, */*',
