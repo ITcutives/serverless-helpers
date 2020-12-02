@@ -1,6 +1,6 @@
 {
   "name": "@itcutives/serverless-helpers",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Serverless Helper Functions",
   "main": "index.js",
   "scripts": {
@@ -26,13 +26,13 @@
   },
   "homepage": "https://github.com/ITcutives/serverless-helpers#readme",
   "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "jest": "^24.5.0"
+    "eslint": "^7.14.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.6.3"
   },
   "dependencies": {
     "boom": "^7.3.0",
-    "qs": "^6.7.0"
+    "qs": "^6.9.4"
   }
 }
