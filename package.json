@@ -1,6 +1,6 @@
 {
   "name": "@itcutives/serverless-helpers",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "Serverless Helper Functions",
   "main": "index.js",
   "scripts": {
