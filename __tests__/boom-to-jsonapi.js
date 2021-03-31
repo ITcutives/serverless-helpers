@@ -1,7 +1,7 @@
 /**
  * Created by ashish on 03/06/18.
  */
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const boomToJsonAPI = require('../src/boom-to-jsonapi');
 
 describe('boom-to-jsonapi', () => {

@@ -2,7 +2,7 @@
 /**
  * Created by ashish on 3/7/17.
  */
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const Response = require('../src/response');
 const lambdaResponseFormatter = require('../src/lambdaResponseFormatter');
 
