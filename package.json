@@ -26,13 +26,13 @@
   },
   "homepage": "https://github.com/ITcutives/serverless-helpers#readme",
   "devDependencies": {
-    "eslint": "^7.14.0",
+    "eslint": "^7.23.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "jest": "^26.6.3"
   },
   "dependencies": {
-    "boom": "^7.3.0",
-    "qs": "^6.9.4"
+    "@hapi/boom": "^9.1.2",
+    "qs": "^6.10.1"
   }
 }

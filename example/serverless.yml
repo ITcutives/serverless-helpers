@@ -1,10 +1,13 @@
 service: response-handler
 
+configValidationMode: error
+
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs14.x
   stage: dev
   region: ap-southeast-2
+  lambdaHashingVersion: 20201221
 
 plugins:
   - serverless-offline

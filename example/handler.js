@@ -1,4 +1,4 @@
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const REQ = require('../src/request');
 const RES = require('../src/response');
 const LambdaResponseFormatter = require('../src/lambdaResponseFormatter');
