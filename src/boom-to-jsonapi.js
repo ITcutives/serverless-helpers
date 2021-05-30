@@ -1,7 +1,7 @@
 /**
  * Created by ashish on 03/06/18.
  */
-const Boom = require('@hapi/boom');
+const Boom = require('./boom');
 
 /**
  * {

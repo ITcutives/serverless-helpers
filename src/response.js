@@ -7,6 +7,16 @@ class Response {
   }
 
   /**
+   * @param headers
+   */
+  addHeaders(headers = {}) {
+    this.headers = {
+      ...this.headers,
+      ...headers,
+    };
+  }
+
+  /**
    * @param statusCode
    * @param body
    * @param headers
@@ -15,7 +25,7 @@ class Response {
   respond(statusCode, body, headers) {
     this.statusCode = statusCode;
     this.body = body;
-    this.headers = Object.assign(this.headers, headers);
+    this.addHeaders(headers);
     return this;
   }
 }
