@@ -6,3 +6,5 @@ __tests__
 .travis.yml
 jest.config.js
 *.iml
+.idea
+coverage
