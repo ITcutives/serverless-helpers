@@ -9,7 +9,7 @@ class Response {
   /**
    * @param headers
    */
-  addHeaders(headers = {}) {
+  addHeaders(headers) {
     this.headers = {
       ...this.headers,
       ...headers,
