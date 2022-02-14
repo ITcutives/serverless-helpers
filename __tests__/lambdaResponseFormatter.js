@@ -38,7 +38,7 @@ describe('lambdaResponseFormatter', () => {
           'Access-Control-Allow-Origin': '*',
         },
       };
-      const result = await lambdaResponseFormatter.responseHandler(response.respond(123, { hello: 'world' }, { 'Content-Type': 'text/xml' }));
+      const result = await lambdaResponseFormatter.responseHandler(response.respond(123, '{"hello":"world"}', { 'Content-Type': 'text/xml' }));
       expect(result).toEqual(expectation);
       expect(console.log).toHaveBeenCalledWith('--> MiddleWareError:', error);
     });
@@ -52,7 +52,7 @@ describe('lambdaResponseFormatter', () => {
           'Access-Control-Allow-Origin': '*',
         },
       };
-      const result = await lambdaResponseFormatter.responseHandler(response.respond(123, { hello: 'world' }, { 'Content-Type': 'text/xml' }));
+      const result = await lambdaResponseFormatter.responseHandler(response.respond(123, '{"hello":"world"}', { 'Content-Type': 'text/xml' }));
       expect(result).toEqual(expectation);
       expect(console.log).not.toHaveBeenCalled();
     });

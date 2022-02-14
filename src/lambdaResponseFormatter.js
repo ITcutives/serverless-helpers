@@ -12,11 +12,10 @@ class LambdaResponseFormatter {
   static async responseHandler(resp) {
     const { statusCode, body, headers } = resp;
     const internalHeaders = {};
-    internalHeaders['Content-Type'] = 'application/json';
     internalHeaders['Access-Control-Allow-Origin'] = '*';
 
     try {
-      await this.middleware();
+      await this.middleware(resp);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('--> MiddleWareError:', error);
@@ -24,7 +23,7 @@ class LambdaResponseFormatter {
 
     const finalHeaders = Object.assign(internalHeaders, headers);
     return {
-      body: JSON.stringify(body),
+      body,
       headers: finalHeaders,
       statusCode,
     };
@@ -39,7 +38,7 @@ class LambdaResponseFormatter {
       console.log('--> Error:', error);
     }
 
-    return LambdaResponseFormatter.responseHandler(response.respond(jsonError.errors[0].status, jsonError));
+    return LambdaResponseFormatter.responseHandler(response.respond(jsonError.errors[0].status, JSON.stringify(jsonError), { 'Content-Type': 'application/json' }));
   }
 }
 

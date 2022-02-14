@@ -27,6 +27,8 @@ module.exports.handler = async () => {
   try {
     //... open db connection, handle request etc ... 
     const resp = await handleEvent(request, response);
+    // response.respond(<status-code>, <response-body>, <headers>);
+    // eg. response.respond(200, JSON.stringify({test: 1}), { 'content-type': 'application/json' });
     return LambdaResponseFormatter.responseHandler(resp);
   } catch (e) {
     return LambdaResponseFormatter.errorHandler(e);
@@ -42,7 +44,8 @@ To handle the clean up operations before responding. such as close db connection
 const LambdaResponseFormatter = require('@itcutives/serverless-helpers/src/lambdaResponseFormatter');
 
 class ResponseHandler extends LambdaResponseFormatter {
-  static async middleware() {
+  static async middleware(response) {
+    // add remove header etc.
     // close db connection
     return true;
   }
