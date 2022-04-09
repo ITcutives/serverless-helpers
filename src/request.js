@@ -35,6 +35,13 @@ class Request {
     return this.env;
   }
 
+  static getMethod(event) {
+    if (event.version === '2.0') {
+      return event.requestContext.http.method.toLowerCase();
+    }
+    return event.httpMethod.toLowerCase();
+  }
+
   /**
    * @param event
    * @returns {Request}
@@ -45,11 +52,13 @@ class Request {
       result[key.toLowerCase()] = event.headers[key];
       return result;
     }, {});
-    const method = event.httpMethod.toLowerCase();
+
+    const method = this.getMethod(event);
+
     const url = {
       host: headers.host,
       params: {},
-      pathname: event.path,
+      pathname: event.path || event.rawPath,
       // query: event.queryStringParameters || {},
       query: QS.parse(QS.stringify(event.queryStringParameters || {})),
     };
@@ -61,8 +70,12 @@ class Request {
     }
 
     let { body } = event;
+    if (event.isBase64Encoded === true) {
+      const buff = Buffer.from(body, 'base64');
+      body = buff.toString('ascii');
+    }
+
     try {
-      // eslint-disable-next-line no-const-assign
       body = JSON.parse(body);
     } catch (e) {
       // Do nothing...

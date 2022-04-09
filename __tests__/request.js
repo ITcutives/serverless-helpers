@@ -5,7 +5,7 @@ const Request = require('../src/request');
 
 describe('request', () => {
   describe('normaliseLambdaRequest', () => {
-    it('should correctly build response object from lambda event', () => {
+    it('should correctly build request object from lambda event', () => {
       const event = {
         resource: '/v1/{parent}/{id}/{association}',
         path: '/v1/users/2/webservices',
@@ -75,7 +75,7 @@ describe('request', () => {
       expect(Request.normaliseLambdaRequest(event)).toEqual(expectation);
     });
 
-    it('should correctly build response object from lambda event (without pathParams and qs)', () => {
+    it('should correctly build request object from lambda event (without pathParams and qs)', () => {
       const event = {
         resource: '/v1/{parent}/{id}/{association}',
         path: '/v1/organisations/2/webservices',
@@ -130,6 +130,79 @@ describe('request', () => {
         via: '2.0 8f1576b7655be126377fe32a39c280b6.cloudfront.net (CloudFront)',
       };
       const expectation = new Request('992d7b5f-60ae-11e7-afd3-a731ab6f7abe', 'get', headers, url, null);
+      expect(Request.normaliseLambdaRequest(event)).toEqual(expectation);
+    });
+
+    it('should correctly build request object from lambda event (v2)', () => {
+      const event = {
+        version: '2.0',
+        routeKey: 'ANY /v2/{parent}/{id}/{association}',
+        rawPath: '/v2/users/ashish@gmail.com/webservices',
+        rawQueryString: 'fields[webservices]=id,name,adapter&fields[users]=id,name',
+        headers: {
+          accept: '*/*',
+          'content-length': '18',
+          'content-type': 'application/x-www-form-urlencoded',
+          host: '46dyr5skf3.execute-api.ap-southeast-2.amazonaws.com',
+          'user-agent': 'curl/7.64.1',
+          'x-amzn-trace-id': 'Root=1-6250dde2-7a5e82594317e29f6a89f4be',
+          'x-forwarded-for': '120.17.12.112',
+          'x-forwarded-port': '443',
+          'x-forwarded-proto': 'https',
+        },
+        queryStringParameters: {
+          'fields[users]': 'id,name',
+          'fields[webservices]': 'id,name,adapter',
+        },
+        requestContext: {
+          accountId: '679802029599',
+          apiId: '46dyr5skf3',
+          domainName: '46dyr5skf3.execute-api.ap-southeast-2.amazonaws.com',
+          domainPrefix: '46dyr5skf3',
+          http: {
+            method: 'POST',
+            path: '/v2/users/ashish@gmail.com/webservices',
+            protocol: 'HTTP/1.1',
+            sourceIp: '120.17.12.112',
+            userAgent: 'curl/7.64.1',
+          },
+          requestId: 'QSebXjd4ywMEMvA=',
+          routeKey: 'ANY /v2/{parent}/{id}/{association}',
+          stage: '$default',
+          time: '09/Apr/2022:01:14:10 +0000',
+          timeEpoch: 1649466850159,
+        },
+        pathParameters: {
+          association: 'webservices',
+          id: 'ashish@gmail.com',
+          parent: 'users',
+        },
+        body: 'eyJuYW1lIjogImFzaGlzaCJ9',
+        isBase64Encoded: true,
+      };
+      const url = {
+        host: '46dyr5skf3.execute-api.ap-southeast-2.amazonaws.com',
+        params: { parent: 'users', association: 'webservices', id: 'ashish@gmail.com' },
+        pathname: '/v2/users/ashish@gmail.com/webservices',
+        query: {
+          fields: {
+            webservices: 'id,name,adapter',
+            users: 'id,name',
+          },
+        },
+      };
+      const headers = {
+        accept: '*/*',
+        'content-length': '18',
+        'content-type': 'application/x-www-form-urlencoded',
+        host: '46dyr5skf3.execute-api.ap-southeast-2.amazonaws.com',
+        'user-agent': 'curl/7.64.1',
+        'x-amzn-trace-id': 'Root=1-6250dde2-7a5e82594317e29f6a89f4be',
+        'x-forwarded-for': '120.17.12.112',
+        'x-forwarded-port': '443',
+        'x-forwarded-proto': 'https',
+      };
+      const expectation = new Request('QSebXjd4ywMEMvA=', 'post', headers, url, { name: 'ashish' });
       expect(Request.normaliseLambdaRequest(event)).toEqual(expectation);
     });
   });
