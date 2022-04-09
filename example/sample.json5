@@ -1,0 +1,177 @@
+{
+  "v1": {
+    "request": "curl \"https://<api_id>.execute-api.ap-southeast-2.amazonaws.com/development/v1/users/ashish%40gmail.com/webservices?fields[webservices]=id,name,adapter&fields[users]=id,name\" -d '{\"name\": \"ashish\"}'",
+    "event": {
+      "resource": "/v1/{parent}/{id}/{association}",
+      "path": "/v1/users/ashish%40gmail.com/webservices",
+      "httpMethod": "POST",
+      "headers": {
+        "Accept": "*/*",
+        "CloudFront-Forwarded-Proto": "https",
+        "CloudFront-Is-Desktop-Viewer": "true",
+        "CloudFront-Is-Mobile-Viewer": "false",
+        "CloudFront-Is-SmartTV-Viewer": "false",
+        "CloudFront-Is-Tablet-Viewer": "false",
+        "CloudFront-Viewer-Country": "AU",
+        "content-type": "application/x-www-form-urlencoded",
+        "Host": "<api_id>.execute-api.ap-southeast-2.amazonaws.com",
+        "User-Agent": "curl/7.64.1",
+        "Via": "2.0 a6b70b5c031397eba9646ba0eedbdb86.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "AbMDn59CwfjMjrphzjL6nQ48YUwEPcCQOq5xjp0yFZmBfDiJoJ6ahg==",
+        "X-Amzn-Trace-Id": "Root=1-6250ddd3-633f2c6d5d625b2d5f027f09",
+        "X-Forwarded-For": "120.17.12.112, 130.176.212.19",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+      },
+      "multiValueHeaders": {
+        "Accept": [
+          "*/*"
+        ],
+        "CloudFront-Forwarded-Proto": [
+          "https"
+        ],
+        "CloudFront-Is-Desktop-Viewer": [
+          "true"
+        ],
+        "CloudFront-Is-Mobile-Viewer": [
+          "false"
+        ],
+        "CloudFront-Is-SmartTV-Viewer": [
+          "false"
+        ],
+        "CloudFront-Is-Tablet-Viewer": [
+          "false"
+        ],
+        "CloudFront-Viewer-Country": [
+          "AU"
+        ],
+        "content-type": [
+          "application/x-www-form-urlencoded"
+        ],
+        "Host": [
+          "<api_id>.execute-api.ap-southeast-2.amazonaws.com"
+        ],
+        "User-Agent": [
+          "curl/7.64.1"
+        ],
+        "Via": [
+          "2.0 a6b70b5c031397eba9646ba0eedbdb86.cloudfront.net (CloudFront)"
+        ],
+        "X-Amz-Cf-Id": [
+          "AbMDn59CwfjMjrphzjL6nQ48YUwEPcCQOq5xjp0yFZmBfDiJoJ6ahg=="
+        ],
+        "X-Amzn-Trace-Id": [
+          "Root=1-6250ddd3-633f2c6d5d625b2d5f027f09"
+        ],
+        "X-Forwarded-For": [
+          "120.17.12.112, 130.176.212.19"
+        ],
+        "X-Forwarded-Port": [
+          "443"
+        ],
+        "X-Forwarded-Proto": [
+          "https"
+        ]
+      },
+      "queryStringParameters": {
+        "fields[users]": "id,name",
+        "fields[webservices]": "id,name,adapter"
+      },
+      "multiValueQueryStringParameters": {
+        "fields[users]": [
+          "id,name"
+        ],
+        "fields[webservices]": [
+          "id,name,adapter"
+        ]
+      },
+      "pathParameters": {
+        "parent": "users",
+        "association": "webservices",
+        "id": "ashish%40gmail.com"
+      },
+      "stageVariables": null,
+      "requestContext": {
+        "resourceId": "medbii",
+        "resourcePath": "/v1/{parent}/{id}/{association}",
+        "httpMethod": "POST",
+        "extendedRequestId": "QSeZEEnvSwMFVng=",
+        "requestTime": "09/Apr/2022:01:13:55 +0000",
+        "path": "/development/v1/users/ashish%40gmail.com/webservices",
+        "accountId": "679802029599",
+        "protocol": "HTTP/1.1",
+        "stage": "development",
+        "domainPrefix": "<api_id>",
+        "requestTimeEpoch": 1649466835456,
+        "requestId": "c0af598d-d9c5-43f7-a106-220439731a51",
+        "identity": {
+          "cognitoIdentityPoolId": null,
+          "accountId": null,
+          "cognitoIdentityId": null,
+          "caller": null,
+          "sourceIp": "120.17.12.112",
+          "principalOrgId": null,
+          "accessKey": null,
+          "cognitoAuthenticationType": null,
+          "cognitoAuthenticationProvider": null,
+          "userArn": null,
+          "userAgent": "curl/7.64.1",
+          "user": null
+        },
+        "domainName": "<api_id>.execute-api.ap-southeast-2.amazonaws.com",
+        "apiId": "<api_id>"
+      },
+      "body": "{\"name\": \"ashish\"}",
+      "isBase64Encoded": false
+    }
+  },
+  "v2": {
+    "request": "curl \"https://<api_id>.execute-api.ap-southeast-2.amazonaws.com/v2/users/ashish%40gmail.com/webservices?fields[webservices]=id,name,adapter&fields[users]=id,name\" -d '{\"name\": \"ashish\"}'",
+    "event": {
+      "version": "2.0",
+      "routeKey": "ANY /v2/{parent}/{id}/{association}",
+      "rawPath": "/v2/users/ashish@gmail.com/webservices",
+      "rawQueryString": "fields[webservices]=id,name,adapter&fields[users]=id,name",
+      "headers": {
+        "accept": "*/*",
+        "content-length": "18",
+        "content-type": "application/x-www-form-urlencoded",
+        "host": "<api_id>.execute-api.ap-southeast-2.amazonaws.com",
+        "user-agent": "curl/7.64.1",
+        "x-amzn-trace-id": "Root=1-6250dde2-7a5e82594317e29f6a89f4be",
+        "x-forwarded-for": "120.17.12.112",
+        "x-forwarded-port": "443",
+        "x-forwarded-proto": "https"
+      },
+      "queryStringParameters": {
+        "fields[users]": "id,name",
+        "fields[webservices]": "id,name,adapter"
+      },
+      "requestContext": {
+        "accountId": "679802029599",
+        "apiId": "<api_id>",
+        "domainName": "<api_id>.execute-api.ap-southeast-2.amazonaws.com",
+        "domainPrefix": "<api_id>",
+        "http": {
+          "method": "POST",
+          "path": "/v2/users/ashish@gmail.com/webservices",
+          "protocol": "HTTP/1.1",
+          "sourceIp": "120.17.12.112",
+          "userAgent": "curl/7.64.1"
+        },
+        "requestId": "QSebXjd4ywMEMvA=",
+        "routeKey": "ANY /v2/{parent}/{id}/{association}",
+        "stage": "$default",
+        "time": "09/Apr/2022:01:14:10 +0000",
+        "timeEpoch": 1649466850159
+      },
+      "pathParameters": {
+        "association": "webservices",
+        "id": "ashish@gmail.com",
+        "parent": "users"
+      },
+      "body": "eyJuYW1lIjogImFzaGlzaCJ9",
+      "isBase64Encoded": true
+    }
+  }
+}
